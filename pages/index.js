@@ -3,7 +3,8 @@ import Header from "../components/Header";
 import ServiceCard from "../components/ServiceCard";
 import Socials from "../components/Socials";
 import WorkCard from "../components/WorkCard";
-import { useIsomorphicLayoutEffect } from "../utils";
+import ProjectResume from "../components/ProjectResume";
+import { getRandomImage, useIsomorphicLayoutEffect } from "../utils";
 import { stagger } from "../animations";
 import Footer from "../components/Footer";
 import Head from "next/head";
@@ -22,6 +23,7 @@ export default function Home() {
   const textTwo = useRef();
   const textThree = useRef();
   const textFour = useRef();
+  const experience = useRef();
 
   // Handling Scroll
   const handleWorkScroll = () => {
@@ -93,14 +95,32 @@ export default function Home() {
 
           <Socials className="mt-2 laptop:mt-5" />
         </div>
-        <div className="mt-10 laptop:mt-30 p-2 laptop:p-0" ref={workRef}>
-          <h1 className="text-2xl text-bold">Work.</h1>
 
+          <div className="mt-10 laptop:mt-30 p-2 laptop:p-0" ref={experience}>
+            <h1 className="text-2xl text-bold">Experience.</h1>
+
+            <div className="mt-5 laptop:mt-10 tablet:grid-cols-2 gap-4">
+              {data.resume.experiences.map(
+                  ({ id, dates, type, position, bullets }) => (
+                    <ProjectResume
+                      key={id}
+                      dates={dates}
+                      type={type}
+                      position={position}
+                      bullets={bullets}
+                    ></ProjectResume>
+                  )
+                )}
+            </div>
+          </div>
+
+        <div className="mt-10 laptop:mt-30 p-2 laptop:p-0" ref={workRef}>
+          <h1 className="text-2xl text-bold">Projects.</h1>
           <div className="mt-5 laptop:mt-10 grid grid-cols-1 tablet:grid-cols-2 gap-4">
             {data.projects.map((project) => (
               <WorkCard
                 key={project.id}
-                img={project.imageSrc}
+                img={project.imageSrc ? project.imageSrc : getRandomImage()}
                 name={project.title}
                 description={project.description}
                 onClick={() => window.open(project.url)}
@@ -110,7 +130,7 @@ export default function Home() {
         </div>
 
         <div className="mt-10 laptop:mt-30 p-2 laptop:p-0">
-          <h1 className="tablet:m-10 text-2xl text-bold">Services.</h1>
+          <h1 className="tablet:m-10 text-2xl text-bold">Achievements.</h1>
           <div className="mt-5 tablet:m-10 grid grid-cols-1 laptop:grid-cols-2 gap-6">
             {data.services.map((service, index) => (
               <ServiceCard
