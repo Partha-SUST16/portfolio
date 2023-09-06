@@ -75,3 +75,7 @@ body {
   background: inherit;
   border-radius: inherit;
 }
+
+.list-padding-left {
+  padding-left: revert;
+}
